@@ -61,7 +61,7 @@ let UIController = (() => {
       return {
         type: document.querySelector(DOMstrings.inputType).value, //Will be either inc or exp
         description: document.querySelector(DOMstrings.inputDescription).value,
-        value: document.querySelector(DOMstrings.inputValue).value
+        value: parseFloat(document.querySelector(DOMstrings.inputValue).value)
       };
     },
     addListItem: (obj, type) => {
@@ -137,15 +137,17 @@ let controller = ((budgetCtrl, UICtrl) => {
     //1. Get the field input data
     input = UICtrl.getinput();
 
-    //2. Add the item to the budget controller
-    newItem = budgetCtrl.addItem(input.type, input.description, input.value);
-    //3. Add the item to the UI
-    UICtrl.addListItem(newItem, input.type);
+    if (input.description !== '' && !isNaN(input.value) && input.value > 0) {
+      //2. Add the item to the budget controller
+      newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+      //3. Add the item to the UI
+      UICtrl.addListItem(newItem, input.type);
 
-    //4.Clear the fields
-    UICtrl.clearFields();
-    //5. Calculate the budget
-    //6. Display the budget on the UI
+      //4.Clear the fields
+      UICtrl.clearFields();
+      //5. Calculate the budget
+      //6. Display the budget on the UI
+    }
   };
 
   return {
